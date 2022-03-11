@@ -8,12 +8,14 @@ struct ListElement
 {
     int data;
     ListElement *next;
+    ListElement *prev;
     ListElement();
 };
 
 ListElement::ListElement()
 {
     next = 0;
+    prev = 0;
 }
 
 struct OneList
@@ -54,15 +56,17 @@ void OneList::addOnEnd(int data)
 
         temp->next = newElement;
         newElement->next = 0;
+        newElement->prev = temp;
     }
 }
-//Dodawanie na poczπtek
+//Dodawanie na poczƒÖtek
 void OneList::addOnBeg(int data)
 {
     ListElement *newElement = new ListElement;
 
     newElement->data = data;
     newElement->next = first;
+    newElement->prev = 0;
     first = newElement;
 }
 
@@ -86,7 +90,7 @@ void OneList::addOnIndex(int data, int i)
     }
     temp = first;
 
-    //na poczπtek
+    //na poczƒÖtek
     if(i == 0)
     {
         first = newElement;
@@ -104,15 +108,16 @@ void OneList::addOnIndex(int data, int i)
 
             temp->next = newElement;
             newElement->next = 0;
+            newElement->prev = temp;
         }
 
-        //w úrodku
+        //w ≈õrodku
         else
         {
            temp = first;
            int j = 1;
 
-           //wskaünik temp na element n-1
+           //wska≈∫nik temp na element n-1
             while(temp)
             {
                 if(j==i) break;
@@ -123,6 +128,7 @@ void OneList::addOnIndex(int data, int i)
             temp2 = temp->next;
             temp->next = newElement;
             newElement->next = temp2;
+            newElement->prev = temp;
         }
     }
 }
@@ -130,21 +136,22 @@ void OneList::addOnIndex(int data, int i)
 //Usuwanie po indeksie
 void OneList::deleteElement(int i)
 {
-    //usuniÍcie pierwszego elementu
+    //usuniƒôcie pierwszego elementu
     if(i==0)
     {
         ListElement *temp = first;
         first = temp->next;
+        first->prev = 0;
         delete temp;
     }
 
-    //pozosta≥e przypadki
+    //pozosta≈Çe przypadki
     else if(i>=1)
     {
         int j = 1;
         ListElement *temp = first;
 
-        //wskaünik temp na element n-1
+        //wska≈∫nik temp na element n-1
         while(temp)
         {
             if(j==i) break;
@@ -153,18 +160,19 @@ void OneList::deleteElement(int i)
             j++;
         }
 
-        //usuniÍcie ostatniego
+        //usuniƒôcie ostatniego
         if(temp->next->next == 0)
         {
             delete temp->next;
             temp->next = 0;
         }
 
-        //úrodkowego
+        //≈õrodkowego
         else
         {
             ListElement *deletedEl = temp->next;
             temp->next = temp->next->next;
+            temp->next->prev = temp;
             delete deletedEl;
         }
     }
@@ -192,13 +200,13 @@ void OneList::showElement(int i)
     }
 }
 
-//Wyúwietlenie listy
+//Wy≈õwietlenie listy
 void OneList::showList()
 {
     ListElement *temp = first;
     while(temp)
     {
-        cout << temp->data << endl;
+        cout << temp->data << " ";
         temp = temp->next;
     }
 }
@@ -211,12 +219,13 @@ int main()
     myList->addOnEnd(2);
     myList->addOnEnd(3);
     myList->addOnEnd(4);
-    //myList->deleteElement(2);
-    //myList->addOnBeg(10);
+    myList->deleteElement(2);
+    myList->addOnBeg(10);
     myList->addOnIndex(5, 1);
 
     myList->showList();
-    //myList->showElement(0);
+    cout << endl;
+    myList->showElement(0);
 
     delete myList;
 
