@@ -1,11 +1,13 @@
 #include <iostream>
-#include <string>
+#include <numeric>
+#include <chrono>
 #include <cstdlib>
 
 using namespace std;
 
-struct ListElement
+class ListElement
 {
+    public:
     int data;
     ListElement *next;
     ListElement *prev;
@@ -18,15 +20,20 @@ ListElement::ListElement()
     prev = 0;
 }
 
-struct OneList
+class OneList
 {
+    public:
     ListElement *first;
     void addOnEnd(int data);
     void addOnBeg(int data);
     void addOnIndex(int data, int i);
+    int getSize(ListElement *head);
     void deleteElement(int i);
+    ListElement* findTail(ListElement *head);
     void showElement(int i);
+    void searchValue(int value);
     void showList();
+    void showReverse();
     OneList();
 };
 
@@ -67,13 +74,29 @@ void OneList::addOnBeg(int data)
     newElement->data = data;
     newElement->next = first;
     newElement->prev = 0;
+    first->prev = newElement;
     first = newElement;
+}
+
+//Rozmiar
+int OneList::getSize(ListElement *head)
+{
+    int listSize = 0;
+    ListElement *temp = head;
+
+    while(temp)
+    {
+        temp = temp->next;
+        listSize++;
+    }
+
+    return listSize;
 }
 
 //Dodanie na wybrane miejsce
 void OneList::addOnIndex(int data, int i)
 {
-    int listSize = 0;
+    int listSize = getSize(first);
     ListElement *temp = first;
     ListElement *temp2 = first; //aby nie stracic pierwotnej wartosci temp
 
@@ -82,17 +105,11 @@ void OneList::addOnIndex(int data, int i)
         newElement->data = data;
         newElement->next = first;
 
-    //Rozmiar
-    while(temp)
-    {
-        temp = temp->next;
-        listSize++;
-    }
-    temp = first;
-
     //na początek
     if(i == 0)
     {
+        newElement->prev = 0;
+        first->prev = newElement;
         first = newElement;
     }
 
@@ -200,10 +217,51 @@ void OneList::showElement(int i)
     }
 }
 
+void OneList::searchValue(int value)
+{
+    ListElement *temp = first;
+    int i = 0;
+
+    while(temp)
+    {
+        if(temp->data == value) break;
+
+        temp = temp->next;
+        i++;
+    }
+    if(temp->data == value)
+    {
+        cout << "Liczba " << value << " znaleziona na indeksie "<< i << "." << endl;
+    }
+    else
+    {
+        cout << "Nie ma takiej liczby w tablicy" << endl;
+    }
+}
+
+ListElement* OneList::findTail(ListElement *head)
+{
+    if(!head)
+        return NULL;
+
+    while(head->next)
+    {
+        head = head->next;
+    }
+    return head;
+}
+
 //Wyświetlenie listy
 void OneList::showList()
 {
+    if(!first)
+    {
+        cout << "Lista jest pusta" << endl;
+        return;
+    }
+
     ListElement *temp = first;
+
     while(temp)
     {
         cout << temp->data << " ";
@@ -211,21 +269,41 @@ void OneList::showList()
     }
 }
 
+//Od tyłu
+void OneList::showReverse()
+{
+
+    ListElement *tail = findTail(first);
+
+    do
+    {
+        cout << tail->data << " ";
+        tail = tail->prev;
+    }while(tail);
+}
+
+
 int main()
 {
     OneList *myList = new OneList;
 
-    myList->addOnEnd(1);
+
     myList->addOnEnd(2);
+    myList->addOnBeg(1);
     myList->addOnEnd(3);
     myList->addOnEnd(4);
     myList->deleteElement(2);
     myList->addOnBeg(10);
     myList->addOnIndex(5, 1);
+    myList->addOnIndex(6, 5);
 
+    cout << "Lista: ";
     myList->showList();
-    cout << endl;
-    myList->showElement(0);
+    cout << "\nOd konca: ";
+    myList->showReverse();
+    cout << "\nElement na 1. pozycji: ";
+    myList->showElement(1);
+    myList->searchValue(7);
 
     delete myList;
 
