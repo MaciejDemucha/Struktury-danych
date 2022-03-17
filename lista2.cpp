@@ -34,6 +34,7 @@ class OneList
     void searchValue(int value);
     void showList();
     void showReverse();
+    void prevNext();
     OneList();
 };
 
@@ -108,24 +109,15 @@ void OneList::addOnIndex(int data, int i)
     //na początek
     if(i == 0)
     {
-        newElement->prev = 0;
-        first->prev = newElement;
-        first = newElement;
+        addOnBeg(data);
     }
 
     //na koniec
     else
     {
-        if(i == listSize)
+        if(i >= listSize)
         {
-            while(temp->next)
-            {
-                temp = temp->next;
-            }
-
-            temp->next = newElement;
-            newElement->next = 0;
-            newElement->prev = temp;
+            addOnEnd(data);
         }
 
         //w środku
@@ -146,6 +138,7 @@ void OneList::addOnIndex(int data, int i)
             temp->next = newElement;
             newElement->next = temp2;
             newElement->prev = temp;
+            temp2->prev = newElement;
         }
     }
 }
@@ -267,6 +260,8 @@ void OneList::showList()
         cout << temp->data << " ";
         temp = temp->next;
     }
+
+    cout << endl;
 }
 
 //Od tyłu
@@ -280,8 +275,25 @@ void OneList::showReverse()
         cout << tail->data << " ";
         tail = tail->prev;
     }while(tail);
+
+    cout << endl;
 }
 
+//sprawdzenie wskaznikow prev i next
+void OneList::prevNext()
+{
+    ListElement *temp = first;
+
+    while(temp)
+    {
+        cout << temp->data << " ";
+        if(temp->prev != NULL)
+            cout << "prev -> " << temp->prev->data;
+        if(temp->next != NULL)
+            cout << " next -> " << temp->next->data << endl;
+        temp = temp->next;
+    }
+}
 
 int main()
 {
@@ -292,18 +304,26 @@ int main()
     myList->addOnBeg(1);
     myList->addOnEnd(3);
     myList->addOnEnd(4);
+    cout << "Lista przed usunieciem: ";
+    myList->showList();
     myList->deleteElement(2);
+    cout << "Lista po usunieciu: ";
+    myList->showList();
     myList->addOnBeg(10);
+    myList->addOnEnd(5);
     myList->addOnIndex(5, 1);
+    myList->addOnIndex(7, 4);
     myList->addOnIndex(6, 5);
 
-    cout << "Lista: ";
+    cout << "Lista po dodaniu: ";
     myList->showList();
     cout << "\nOd konca: ";
     myList->showReverse();
     cout << "\nElement na 1. pozycji: ";
     myList->showElement(1);
-    myList->searchValue(7);
+    myList->searchValue(8);
+
+    //myList->prevNext();
 
     delete myList;
 
