@@ -1,52 +1,9 @@
+#include "kopiec.h"
 
-#include<iostream>
-#include<climits>
 using namespace std;
 
 //Zamiana elementow na ktore wskazuj¹ wskazniki
 void swap(int *x, int *y);
-
-class MinHeap
-{
-    int *harr; // wkaznik na tablice reprezentujaca kopiec
-    int capacity; // rozmiar
-    int heap_size; // ilosc obecnych elementow
-public:
-
-    MinHeap(int capacity);
-
-    // przywrocenie wlasnosci kopca od elementu o wybranym indeksie
-    void MinHeapify(int );
-
-    int parent(int i) { return (i-1)/2; }
-
-    // indeks lewego dziecko wezla o indeksie i
-    int left(int i) { return (2*i + 1); }
-
-    // indeks prawego dziecko wezla o indeksie i
-    int right(int i) { return (2*i + 2); }
-
-    //Usuniecie ze szczytu (u¿ywa funkcji MinHeapify)
-    int extractMin();
-
-    // Zmniejszenie elementu o indeksie i
-    void decreaseKey(int i, int new_val);
-
-    //Szczyt kopca
-    int getMin() { return harr[0]; }
-
-    // Usuniêcie elementu o indeksie i (u¿ywa decreaseKey i extractMin)
-    void deleteKey(int i);
-
-    // Dodanie do kopca
-    void push(int k);
-
-    //Wyswietlenie kopca
-    void print();
-
-    //szukanie wartosci
-    void searchValue(int value);
-};
 
 MinHeap::MinHeap(int cap)
 {
@@ -97,8 +54,6 @@ void MinHeap::push(int k)
        swap(&harr[i], &harr[parent(i)]);
        i = parent(i);
     }
-
-    //MinHeapify(0);
 }
 
 void MinHeap::decreaseKey(int i, int new_val)
@@ -111,7 +66,7 @@ void MinHeap::decreaseKey(int i, int new_val)
     }
 }
 
-int MinHeap::extractMin()
+int MinHeap::pop()
 {
     if (heap_size <= 0)
         return INT_MAX;
@@ -132,7 +87,7 @@ int MinHeap::extractMin()
 void MinHeap::deleteKey(int i)
 {
     decreaseKey(i, INT_MIN);
-    extractMin();
+    pop();
 }
 
 void MinHeap::MinHeapify(int i)
@@ -156,23 +111,4 @@ void swap(int *x, int *y)
     int temp = *x;
     *x = *y;
     *y = temp;
-}
-
-int main()
-{
-    MinHeap h(11);
-    h.push(3);
-    h.push(2);
-    h.deleteKey(1);
-    h.push(15);
-    h.push(5);
-    h.push(4);
-    h.push(45);
-    h.print();
-    h.searchValue(155);
-    cout << h.extractMin() << endl;;
-    cout << h.getMin() << endl;
-    h.decreaseKey(2, 1);
-    cout << h.getMin();
-    return 0;
 }

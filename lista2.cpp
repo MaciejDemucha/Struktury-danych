@@ -1,42 +1,12 @@
-#include <iostream>
-#include <numeric>
-#include <chrono>
-#include <cstdlib>
+#include "lista2.h"
 
 using namespace std;
-
-class ListElement
-{
-    public:
-    int data;
-    ListElement *next;
-    ListElement *prev;
-    ListElement();
-};
 
 ListElement::ListElement()
 {
     next = 0;
     prev = 0;
 }
-
-class OneList
-{
-    public:
-    ListElement *first;
-    void addOnEnd(int data);
-    void addOnBeg(int data);
-    void addOnIndex(int data, int i);
-    int getSize(ListElement *head);
-    void deleteElement(int i);
-    ListElement* findTail(ListElement *head);
-    void showElement(int i);
-    void searchValue(int value);
-    void showList();
-    void showReverse();
-    void prevNext();
-    OneList();
-};
 
 OneList::OneList()
 {
@@ -75,8 +45,8 @@ void OneList::addOnBeg(int data)
     newElement->data = data;
     newElement->next = first;
     newElement->prev = 0;
-    first->prev = newElement;
     first = newElement;
+    first->prev = newElement;
 }
 
 //Rozmiar
@@ -146,6 +116,13 @@ void OneList::addOnIndex(int data, int i)
 //Usuwanie po indeksie
 void OneList::deleteElement(int i)
 {
+    if(first->next == NULL)
+    {
+        delete first;
+        first = nullptr;
+        return;
+    }
+
     //usunięcie pierwszego elementu
     if(i==0)
     {
@@ -187,6 +164,15 @@ void OneList::deleteElement(int i)
         }
     }
 }
+
+ void OneList::clearList()
+ {
+      if( first == 0 )
+         return;
+
+    delete first;
+    first = nullptr;
+ }
 
 //Wyszukiwanie po indeksie
 void OneList::showElement(int i)
@@ -293,41 +279,4 @@ void OneList::prevNext()
             cout << " next -> " << temp->next->data << endl;
         temp = temp->next;
     }
-}
-
-int main()
-{
-    OneList *myList = new OneList;
-
-
-    myList->addOnEnd(2);
-    myList->addOnBeg(1);
-    myList->addOnEnd(3);
-    myList->addOnEnd(4);
-    cout << "Lista przed usunieciem: ";
-    myList->showList();
-    myList->deleteElement(2);
-    cout << "Lista po usunieciu: ";
-    myList->showList();
-    myList->addOnBeg(10);
-    myList->addOnEnd(5);
-    myList->addOnIndex(5, 1);
-    myList->addOnIndex(7, 4);
-    myList->addOnIndex(6, 5);
-
-    cout << "Lista po dodaniu: ";
-    myList->showList();
-    cout << "\nOd konca: ";
-    myList->showReverse();
-    cout << "\nElement na 1. pozycji: ";
-    myList->showElement(1);
-    myList->searchValue(8);
-
-    //myList->prevNext();
-
-    delete myList;
-
-    system("pause >nul");
-
-    return 0;
 }
