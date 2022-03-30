@@ -23,7 +23,10 @@ class OneList
     void addOnBeg(int data);
     void addOnIndex(int data, int i);
     int getSize(ListElement *head);
+    //void deleteElement(ListElement* del);
+    //void deleteIndex(int n);
     void deleteElement(int i);
+    void usun_osobe(int nr);
     ListElement* findTail(ListElement *head);
     void showElement(int i);
     void searchValue(int value);

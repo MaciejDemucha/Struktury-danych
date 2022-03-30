@@ -44,16 +44,19 @@ void OneList::addOnBeg(int data)
 
     newElement->data = data;
     newElement->next = first;
-    newElement->prev = 0;
+    newElement->prev = NULL;
+
+    if (first != NULL)
+        first->prev = newElement;
+
     first = newElement;
-    first->prev = newElement;
 }
 
 //Rozmiar
-int OneList::getSize(ListElement *head)
+int OneList::getSize(ListElement *first)
 {
     int listSize = 0;
-    ListElement *temp = head;
+    ListElement *temp = first;
 
     while(temp)
     {
@@ -113,6 +116,7 @@ void OneList::addOnIndex(int data, int i)
     }
 }
 
+
 //Usuwanie po indeksie
 void OneList::deleteElement(int i)
 {
@@ -139,7 +143,7 @@ void OneList::deleteElement(int i)
         ListElement *temp = first;
 
         //wskaźnik temp na element n-1
-        while(temp)
+        while(temp->next)
         {
             if(j==i) break;
 
@@ -150,8 +154,13 @@ void OneList::deleteElement(int i)
         //usunięcie ostatniego
         if(temp->next->next == 0)
         {
-            delete temp->next;
-            temp->next = 0;
+            //deleteLast();
+            if(!temp) return;
+             temp -> prev -> next = NULL;
+             delete temp->next;
+
+           // delete temp->next;
+            //temp->next = 0;
         }
 
         //środkowego
@@ -161,6 +170,52 @@ void OneList::deleteElement(int i)
             temp->next = temp->next->next;
             temp->next->prev = temp;
             delete deletedEl;
+        }
+    }
+}
+
+void OneList::usun_osobe (int nr)
+{
+    // jezeli to pierwszy element listy
+    if (nr==1)
+    {
+        ListElement *temp = first;
+        first = temp->next; //ustawiamy poczatek na drugi element
+        delete temp; // usuwamy stary pierwszy element z pamieci
+    }
+    // jeżeli nie jest to pierwszy element
+    else if (nr>=2)
+    {
+        int j = 1;
+
+        // do usuniecia srodkowego elemetnu potrzebujemy wskaznika na osobe n-1
+        // wskaznik *temp bedzie wskaznikiem na osobe poprzedzajaca osobe usuwana
+        ListElement *temp = first;
+
+        while (temp)
+        {
+            // sprawdzamy czy wskaznik jest na osobie n-1 niz usuwana
+            if ((j+1)==nr) break;
+
+            // jezeli nie to przewijamy petle do przodu
+            temp = temp->next;
+            j++;
+        }
+
+        // wskaznik *temp wskazuje teraz na osobe n-1
+        // nadpisujemy wkaznik n-1 z osoby n na osobe n+1
+        // bezpowrotnie tracimy osobe n-ta
+
+        // jezeli usuwamy ostatni element listy
+        if (temp->next->next==0) {
+            delete temp->next;
+            temp->next = 0;
+        }
+        // jezeli usuwamy srodkowy element
+        else {
+            ListElement *usuwana = temp->next;
+            temp->next = temp->next->next;
+            delete usuwana;
         }
     }
 }
@@ -199,23 +254,25 @@ void OneList::showElement(int i)
 void OneList::searchValue(int value)
 {
     ListElement *temp = first;
+    bool found = false;
     int i = 0;
 
     while(temp)
     {
-        if(temp->data == value) break;
+        if(temp->data == value)
+        {
+            found = true;
+            break;
+        }
 
         temp = temp->next;
         i++;
     }
-    if(temp->data == value)
-    {
+
+    if(found)
         cout << "Liczba " << value << " znaleziona na indeksie "<< i << "." << endl;
-    }
     else
-    {
-        cout << "Nie ma takiej liczby w tablicy" << endl;
-    }
+        cout << "Nie znaleziono liczby: " << value << endl;
 }
 
 ListElement* OneList::findTail(ListElement *head)

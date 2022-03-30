@@ -33,7 +33,7 @@ public:
     //Szczyt kopca
     int getMin() { return harr[0]; }
 
-    // Usuniêcie elementu o indeksie i (u¿ywa decreaseKey i extractMin)
+    // Usuniecie elementu o indeksie i (u¿ywa decreaseKey i extractMin)
     void deleteKey(int i);
 
     // Dodanie do kopca
@@ -41,6 +41,9 @@ public:
 
     //Wyswietlenie kopca
     void print();
+
+    //Usuniecie kopca z pamieci
+    void clearHeap();
 
     //szukanie wartosci
     void searchValue(int value);

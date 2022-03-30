@@ -2,7 +2,7 @@
 
 using namespace std;
 
-//Zamiana elementow na ktore wskazuj¹ wskazniki
+//Zamiana elementow na ktore wskazuja wskazniki
 void swap(int *x, int *y);
 
 MinHeap::MinHeap(int cap)
@@ -36,6 +36,16 @@ void MinHeap::print()
     }
     cout << endl;
 }
+
+void MinHeap::clearHeap()
+ {
+      if( harr == 0 )
+         return;
+
+    delete[] harr;
+    harr = new int[capacity];
+    heap_size = 0;
+ }
 
 void MinHeap::push(int k)
 {

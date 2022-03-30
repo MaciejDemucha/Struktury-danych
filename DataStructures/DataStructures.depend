@@ -1,27 +1,27 @@
 # depslib dependency file v1.0
-1648077453 source:c:\users\macie\documents\codeblocks_projects\struktury danych\kopiec.cpp
+1648651716 source:c:\users\macie\documents\codeblocks_projects\struktury danych\kopiec.cpp
 	"kopiec.h"
 
-1648466950 source:c:\users\macie\documents\codeblocks_projects\struktury danych\lista2.cpp
+1648677649 source:c:\users\macie\documents\codeblocks_projects\struktury danych\lista2.cpp
 	"lista2.h"
 
 1648462882 source:c:\users\macie\documents\codeblocks_projects\struktury danych\tablica.cpp
 	"tablica.h"
 
-1648073284 source:c:\users\macie\documents\codeblocks_projects\struktury danych\bst.cpp
+1648669263 source:c:\users\macie\documents\codeblocks_projects\struktury danych\bst.cpp
 	"bst.h"
 
-1648073063 c:\users\macie\documents\codeblocks_projects\struktury danych\bst.h
+1648668960 c:\users\macie\documents\codeblocks_projects\struktury danych\bst.h
 	<iostream>
 	<numeric>
 	<chrono>
 	<cstdlib>
 
-1648077468 c:\users\macie\documents\codeblocks_projects\struktury danych\kopiec.h
+1648650774 c:\users\macie\documents\codeblocks_projects\struktury danych\kopiec.h
 	<iostream>
 	<climits>
 
-1648465883 c:\users\macie\documents\codeblocks_projects\struktury danych\lista2.h
+1648677649 c:\users\macie\documents\codeblocks_projects\struktury danych\lista2.h
 	<iostream>
 	<numeric>
 	<chrono>
@@ -33,7 +33,7 @@
 	<chrono>
 	<cstdlib>
 
-1648467111 source:c:\users\macie\documents\codeblocks_projects\struktury danych\main.cpp
+1648677586 source:c:\users\macie\documents\codeblocks_projects\struktury danych\main.cpp
 	<iostream>
 	<stdio.h>
 	<numeric>

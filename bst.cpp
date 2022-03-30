@@ -2,25 +2,29 @@
 
 using namespace std;
 
-Node::Node()
+NodeBST::NodeBST()
 {
-    left = right = nullptr;
+    root = left = right = nullptr;
 }
 
-Node::Node(int value)
+NodeBST::NodeBST(int value)
 {
     data = value;
-    left = right = nullptr;
+    root = left = right = nullptr;
 }
 
-Node* Node::Insert(Node* root, int data)
+NodeBST* NodeBST::GetRoot(NodeBST* root)
 {
-    Node* newNode = new Node(data);
+    return root;
+}
+
+NodeBST* NodeBST::Insert(NodeBST* root, int data)
+{
+    NodeBST* newNode = new NodeBST(data);
 
     if(root == NULL)
     {
         root = newNode;
-
     }
     else if(data <= root->data)
     {
@@ -33,7 +37,7 @@ Node* Node::Insert(Node* root, int data)
     return root;
 }
 
-Node* Node ::Delete(Node* root, int data)
+NodeBST* NodeBST ::Delete(NodeBST* root, int data)
 {
     if(root == NULL) return NULL;
 
@@ -52,19 +56,19 @@ Node* Node ::Delete(Node* root, int data)
         }
         else if(root->left == NULL)
         {
-          Node* temp = root;
+          NodeBST* temp = root;
           root = root->right;
           delete temp;
         }
         else if(root->right == NULL)
         {
-          Node* temp = root;
+          NodeBST* temp = root;
           root = root->left;
           delete temp;
         }
         else
         {
-            Node* temp = FindMin(root->right);
+            NodeBST* temp = FindMin(root->right);
             root->data = temp->data;
             root->right = Delete(root->right, temp->data);
         }
@@ -73,18 +77,18 @@ Node* Node ::Delete(Node* root, int data)
     }
 }
 
-void Node ::Inorder(Node* root)
+void NodeBST ::Inorder(NodeBST* root)
 {
     if (!root)
     {
         return;
     }
     Inorder(root->left);
-    cout << root->data << endl;
+    cout << root->data << " ";
     Inorder(root->right);
 }
 
-bool Node::Search(Node* root, int data)
+bool NodeBST::Search(NodeBST* root, int data)
 {
     if(root == NULL) return false;
     else if(root->data == data) return true;
@@ -92,13 +96,26 @@ bool Node::Search(Node* root, int data)
     else return Search(root->right, data);
 }
 
-Node* Node ::FindMin(Node* root)
+NodeBST* NodeBST ::FindMin(NodeBST* root)
 {
     while(root->left)
     {
         root = root->left;
     }
     return root;
+}
+
+void NodeBST::ClearBST(NodeBST* root)
+{
+    if (root == NULL) return;
+
+    /* first delete both subtrees */
+    if(root->left!=NULL) ClearBST(root->left);
+    if(root->right!=NULL) ClearBST(root->right);
+
+    /* then delete the node */
+    //cout << "\n Deleting node: " << root->data;
+    delete root;
 }
 
 
