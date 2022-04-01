@@ -1,23 +1,23 @@
 #include "tablica.h"
 
 using namespace std;
-
+//konstruktor
 Table::Table()
 {
     tab = nullptr;
     cnt = 0;
 }
-
+//usuniecie z pamieci
 void Table::clearTable()
 {
-    if( cnt == 0 )
+    if( cnt == 0 ) //czy nie jest pusta
          return;
 
     delete[] tab;
     tab = nullptr;
-    cnt = 0;
+    cnt = 0;      //zerowanie liczby elementow
 }
-
+//wyswietlenie elementow tablicy
 void Table::showTable()
 {
     if(cnt == 0)
@@ -32,17 +32,17 @@ void Table::showTable()
 
     cout << endl;
 }
-
+//wyswietlenie elementu
 void Table::showElement(int i)
 {
     cout << tab[i] << endl;
 }
-
+//wyszukanie wartosci
 void Table::searchValue(int value)
 {
     int i = 0;
 
-    while ( i < cnt && tab[i] != value ) i++;
+    while ( i < cnt && tab[i] != value ) i++; //przesuwamy sie po tablicy az znajdziemy wartosc
 
     if( i == cnt )
     {
@@ -53,21 +53,21 @@ void Table::searchValue(int value)
         cout << "Liczba " << tab[i] << " znaleziona na indeksie "<< i << "." << endl;
     }
 }
-
+//dodanie na wybrany index
 void Table::addOnIndex( int value, int index )
 {
-    int * NewTab = new int[ cnt + 1 ]; //nowa tablica
+    int * NewTab = new int[ cnt + 1 ]; //nowa tablica wieksza o 1
 
-    if(index > cnt)
+    if(index > cnt) //jesli podany indeks jest wiekszy od rozmiaru tablicy, dodaj na koniec
     {
         for(int i = 0; i<cnt; i++)
             NewTab[ i ] = tab[ i ];
         NewTab[cnt] = value;
     }
 
-    else if(index<0)
+    else if(index<0) //sprawdzenie czy uzytkownik nie podal ujemnego indeksu
     {
-
+        return;
     }
     else
     {
@@ -83,7 +83,7 @@ void Table::addOnIndex( int value, int index )
     tab = NewTab; // przypisuje wskaznik na nowa tablice.
     ++cnt; // zwiekszam licznik
 }
-
+//dodanie na poczatek
 void Table::addOnBeg( int value )
 {
     int * NewTab = new int[ cnt + 1 ]; //nowa tablica
@@ -96,7 +96,7 @@ void Table::addOnBeg( int value )
     tab = NewTab; // przypisuje wskaznik na nowa tablice.
     ++cnt; // zwiekszam licznik
 }
-
+//dodanie na koniec
 void Table::addOnEnd( int value )
 {
     int * NewTab = new int[ cnt + 1 ]; //nowa tablica
@@ -109,18 +109,18 @@ void Table::addOnEnd( int value )
     tab = NewTab; // przypisuje wskaznik na nowa tablice.
     ++cnt; // zwiekszam licznik
 }
-
+//usuniecie elementu
 void Table::deleteElement(int index)
 {
     int * NewTab = new int[ cnt - 1 ]; //nowa tablica
 
-    if(index < 0)
+    if(index < 0) //sprawdzenie czy podany indeks jest >= 0
     {
         cout << "Indeks nie moze byc 0 " << endl;
         return;
     }
 
-    else if(index > cnt)
+    else if(index > cnt) //jesli podany indeks jest wiekszy od rozmiaru, usun ostatni element
     {
        index = cnt - 1;
     }

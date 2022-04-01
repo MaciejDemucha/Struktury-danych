@@ -2,12 +2,13 @@
 
 using namespace std;
 
+//konstruktor elementu listy
 ListElement::ListElement()
 {
     next = 0;
     prev = 0;
 }
-
+//konstruktor listy
 OneList::OneList()
 {
     first = 0;
@@ -20,21 +21,17 @@ void OneList::addOnEnd(int data)
 
     newElement->data = data;
 
-    if(first == 0)
+    if(first == 0)  //jesli lista jest pusta to nowy element jest glowa
     {
         first = newElement;
     }
     else
     {
-        ListElement *temp = first;
-        while(temp->next)
-        {
-            temp = temp->next;
-        }
+        ListElement *temp = findLast(first); //szukamy ogona
 
-        temp->next = newElement;
-        newElement->next = 0;
-        newElement->prev = temp;
+        temp->next = newElement; //dodajemy element po ogonie
+        newElement->next = 0;    //wskaznik na nastepnik nowego elementu jest NULL
+        newElement->prev = temp; //dawny ogon staje sie poprzednikiem nowego elementu
     }
 }
 //Dodawanie na początek
@@ -46,7 +43,7 @@ void OneList::addOnBeg(int data)
     newElement->next = first;
     newElement->prev = NULL;
 
-    if (first != NULL)
+    if (first != NULL) //jesli lista nie jest pusta to ustaw poprzednik dawnej glowy listy na nowy element
         first->prev = newElement;
 
     first = newElement;
@@ -71,7 +68,7 @@ int OneList::getSize(ListElement *first)
 void OneList::addOnIndex(int data, int i)
 {
     int listSize = getSize(first);
-    ListElement *temp = first;
+    ListElement *temp = first;  //zmienne pomocnicze
     ListElement *temp2 = first; //aby nie stracic pierwotnej wartosci temp
 
     ListElement *newElement = new ListElement;
@@ -99,7 +96,7 @@ void OneList::addOnIndex(int data, int i)
            temp = first;
            int j = 1;
 
-           //wskaźnik temp na element n-1
+           //wskaźnik temp na element i-1
             while(temp)
             {
                 if(j==i) break;
@@ -107,17 +104,17 @@ void OneList::addOnIndex(int data, int i)
                 temp = temp->next;
                 j++;
             }
-            temp2 = temp->next;
-            temp->next = newElement;
-            newElement->next = temp2;
+            temp2 = temp->next;       //przechowujemy adres elementu po miejscu gdzie chcemy wstawic nowy element
+            temp->next = newElement; //wstawiamy nowy element na miejsce po temp
+            newElement->next = temp2; //ustawiamy poprzednik i nastepnik nowego elementu
             newElement->prev = temp;
-            temp2->prev = newElement;
+            temp2->prev = newElement; //ustawiamy poprzednik elementu po tym nowo wstawionym
         }
     }
 }
 
 
-//Usuwanie po indeksie
+//Usuwanie elementu
 void OneList::deleteElement(int i)
 {
     if(first->next == NULL)
@@ -154,13 +151,9 @@ void OneList::deleteElement(int i)
         //usunięcie ostatniego
         if(temp->next->next == 0)
         {
-            //deleteLast();
             if(!temp) return;
              temp -> prev -> next = NULL;
              delete temp->next;
-
-           // delete temp->next;
-            //temp->next = 0;
         }
 
         //środkowego
@@ -173,56 +166,10 @@ void OneList::deleteElement(int i)
         }
     }
 }
-
-void OneList::usun_osobe (int nr)
-{
-    // jezeli to pierwszy element listy
-    if (nr==1)
-    {
-        ListElement *temp = first;
-        first = temp->next; //ustawiamy poczatek na drugi element
-        delete temp; // usuwamy stary pierwszy element z pamieci
-    }
-    // jeżeli nie jest to pierwszy element
-    else if (nr>=2)
-    {
-        int j = 1;
-
-        // do usuniecia srodkowego elemetnu potrzebujemy wskaznika na osobe n-1
-        // wskaznik *temp bedzie wskaznikiem na osobe poprzedzajaca osobe usuwana
-        ListElement *temp = first;
-
-        while (temp)
-        {
-            // sprawdzamy czy wskaznik jest na osobie n-1 niz usuwana
-            if ((j+1)==nr) break;
-
-            // jezeli nie to przewijamy petle do przodu
-            temp = temp->next;
-            j++;
-        }
-
-        // wskaznik *temp wskazuje teraz na osobe n-1
-        // nadpisujemy wkaznik n-1 z osoby n na osobe n+1
-        // bezpowrotnie tracimy osobe n-ta
-
-        // jezeli usuwamy ostatni element listy
-        if (temp->next->next==0) {
-            delete temp->next;
-            temp->next = 0;
-        }
-        // jezeli usuwamy srodkowy element
-        else {
-            ListElement *usuwana = temp->next;
-            temp->next = temp->next->next;
-            delete usuwana;
-        }
-    }
-}
-
+//usuniecie z pamieci
  void OneList::clearList()
  {
-      if( first == 0 )
+      if( first == 0 ) //sprawdzenie czy lista nie jest pusta
          return;
 
     delete first;
@@ -232,14 +179,14 @@ void OneList::usun_osobe (int nr)
 //Wyszukiwanie po indeksie
 void OneList::showElement(int i)
 {
-    int j = 0;
-    ListElement *temp = first;
+    int j = 0;                  //zmienna pomocnicza do porownywania indeksu odwiedzonego i docelowego
+    ListElement *temp = first;  //zmienna pomocnicza do przeszukiwania listy
     while(temp)
     {
-        if(j == i) break;
+        if(j == i) break;       //jesli dotarlismy do podanego indeksu, przerwij
 
         temp = temp->next;
-        j++;
+        j++;                    //zliczanie indeksu odwiedzonego elementu
     }
     if(temp == NULL)
     {
@@ -250,23 +197,23 @@ void OneList::showElement(int i)
         cout<< temp->data << endl;
     }
 }
-
+//wyszukiwanie wartosci
 void OneList::searchValue(int value)
 {
-    ListElement *temp = first;
-    bool found = false;
-    int i = 0;
+    ListElement *temp = first;  //zmienna pomocnicza
+    bool found = false;         //czy znaleziono
+    int i = 0;                  //indeks znalezionej wartosci
 
-    while(temp)
+    while(temp)     //przesuwamy sie po liscie
     {
         if(temp->data == value)
         {
-            found = true;
+            found = true; //jesli znaleziono, przerwij
             break;
         }
 
         temp = temp->next;
-        i++;
+        i++; //zliczamy indeksy
     }
 
     if(found)
@@ -274,20 +221,20 @@ void OneList::searchValue(int value)
     else
         cout << "Nie znaleziono liczby: " << value << endl;
 }
-
-ListElement* OneList::findTail(ListElement *head)
+//Zwrocenie ogona listy
+ListElement* OneList::findLast(ListElement *first)
 {
-    if(!head)
-        return NULL;
+    if(!first)
+        return NULL; //sprawdzamy czy lista nie jest pusta
 
-    while(head->next)
+    while(first->next) //przesuwamy na koniec
     {
-        head = head->next;
+        first = first->next;
     }
-    return head;
+    return first; //zwracamy ogon
 }
 
-//Wyświetlenie listy
+//Wyswietlenie listy
 void OneList::showList()
 {
     if(!first)
@@ -307,11 +254,11 @@ void OneList::showList()
     cout << endl;
 }
 
-//Od tyłu
+//Od tylu
 void OneList::showReverse()
 {
 
-    ListElement *tail = findTail(first);
+    ListElement *tail = findLast(first);
 
     do
     {
@@ -320,20 +267,4 @@ void OneList::showReverse()
     }while(tail);
 
     cout << endl;
-}
-
-//sprawdzenie wskaznikow prev i next
-void OneList::prevNext()
-{
-    ListElement *temp = first;
-
-    while(temp)
-    {
-        cout << temp->data << " ";
-        if(temp->prev != NULL)
-            cout << "prev -> " << temp->prev->data;
-        if(temp->next != NULL)
-            cout << " next -> " << temp->next->data << endl;
-        temp = temp->next;
-    }
 }

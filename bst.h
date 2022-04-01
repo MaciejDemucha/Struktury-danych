@@ -9,19 +9,19 @@
 class NodeBST
 {
 public:
-    int data;
-    NodeBST* left;
-    NodeBST* right;
-    NodeBST* root;
-    NodeBST();
-    NodeBST(int value);
-    NodeBST* Insert(NodeBST* root, int data);
-    void Inorder(NodeBST* root);
-    bool Search(NodeBST* root, int data);
-    NodeBST* Delete(NodeBST* root, int data);
-    NodeBST* FindMin(NodeBST* root);
-    void ClearBST(NodeBST* root);
-    NodeBST* GetRoot(NodeBST* root);
+    int data;                                       //wartosc w wezle
+    NodeBST* left;                                  //wskaznik na lewego potomka
+    NodeBST* right;                                 //wskaznik na prawego potomka
+    NodeBST* root;                                  //wskaznik na korzen
+    NodeBST();                                      //konstruktor bez wartosci
+    NodeBST(int value);                             //konstruktor z podaniem wartosci do dodania
+    NodeBST* Insert(NodeBST* root, int data);       //dodawanie nowego elementu
+    void Inorder(NodeBST* root);                    //wyswietlenie w porzadku rosnacym
+    bool Search(NodeBST* root, int data);           //wyszukanie podanej wartosci
+    NodeBST* Delete(NodeBST* root, int data);       //usuniecie wartosci
+    NodeBST* FindMin(NodeBST* root);                //znalezienie wartosci minimalnej
+    void ClearBST(NodeBST* root);                   //usuniecie z pamieci
+    NodeBST* GetRoot(NodeBST* root);                //zwrocenie korzenia
 };
 
 #endif

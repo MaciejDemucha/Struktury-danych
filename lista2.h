@@ -6,35 +6,33 @@
 #include <chrono>
 #include <cstdlib>
 
+//reprezentacja elementu listy
 class ListElement
 {
     public:
-    int data;
-    ListElement *next;
-    ListElement *prev;
-    ListElement();
+    int data;           //zawartosc elementu
+    ListElement *next;  //wskaznik na nastepnik
+    ListElement *prev;  //wskaznik na poprzednik
+    ListElement();      //konstruktor
 };
 
+//reprezentacja listy
 class OneList
 {
     public:
-    ListElement *first;
-    void addOnEnd(int data);
-    void addOnBeg(int data);
-    void addOnIndex(int data, int i);
-    int getSize(ListElement *head);
-    //void deleteElement(ListElement* del);
-    //void deleteIndex(int n);
-    void deleteElement(int i);
-    void usun_osobe(int nr);
-    ListElement* findTail(ListElement *head);
-    void showElement(int i);
-    void searchValue(int value);
-    void showList();
-    void showReverse();
-    void clearList();
-    void prevNext();
-    OneList();
+    ListElement *first;                         //glowa listy
+    void addOnEnd(int data);                    //dodanie na koniec
+    void addOnBeg(int data);                    //dodanie na poczatek
+    void addOnIndex(int data, int i);           //dodanie na index
+    int getSize(ListElement *first);            //zwrocenie rozmiaru listy
+    void deleteElement(int i);                  //usuniecie elementu
+    ListElement* findLast(ListElement *first);  //zwrocenie ogona listy
+    void showElement(int i);                    //wypisanie elementu listy
+    void searchValue(int value);                //wyszukiwanie wartosci
+    void showList();                            //wyswietlenie listy
+    void showReverse();                         //od tylu
+    void clearList();                           //usuniecie z pamieci
+    OneList();                                  //konstruktor
 };
 
 #endif

@@ -18,19 +18,6 @@ void testBST();
 
 int main()
 {
-    NodeBST b, *root = NULL;
-    root = b.Insert(root, 20);
-    b.Insert(root, 30);
-    b.Insert(root, 10);
-    b.Insert(root, 40);
-    b.Inorder(root);
-    cout << root->FindMin(root)->data;
-    root->Delete(root, root->FindMin(root)->data);
-    cout << endl;
-    b.Inorder(root);
-
-
-
     char c;
 
     while(true)
@@ -80,10 +67,12 @@ void testTable()
 
     while(true)
     {
+        bool show = false;
+
         cout << "Wybierz operacje: \n";
         cout << "1. Dodawanie \n";
         cout << "2. Usuwanie z tablicy \n";
-        cout << "3. Wyszukiwanie elementu \n";
+        cout << "3. Wyszukiwanie elementu ostatniego \n";
         cout << "4. Wyjscie \n";
 
         c = getch();
@@ -95,10 +84,13 @@ void testTable()
                 Table *myTab = new Table;
 
             int el, razy, x, i;
+
             cout << "Ile elementow dodac do tablicy? ";
             cin >> el;
             cout << "Ile razy dodac elementy do tablicy? ";
             cin >> razy;
+            cout << "Czy wyswietlac operacje? [0/1] ";
+            cin >> show;
             cout << "1. Na poczatek\n";
             cout << "2. Na koniec\n";
             cout << "3. Na indeks\n";
@@ -126,8 +118,12 @@ void testTable()
                     for( int k = 0; k < el; ++k )
                         myTab->addOnIndex( rand() % 1000, i); //dodaj do tablicy losowa wartosc z przedzialu <0-999>
 
-                        myTab->showTable();
-                        cout << endl;
+                        if(show)
+                        {
+                           myTab->showTable();
+                            cout << endl;
+                        }
+
                         myTab->clearTable(); //zwolnij pamiec po kazdym dodaniu elementow do tablicy
                 }
 
@@ -142,11 +138,11 @@ void testTable()
              case '2':
                  {
                     Table *myTab = new Table;
-                    int el, razy, x, i;
+                    int el, x, i;
                     cout << "Ile elementow dodac do tablicy? ";
                     cin >> el;
-                    cout << "Ile razy wykonac operacje? ";
-                    cin >> razy;
+                    cout << "Czy wyswietlac operacje? [0/1] ";
+                    cin >> show;
 
                     cout << "\nUsuwanie: \n";
                     cout << "1. Z poczatku\n";
@@ -170,24 +166,24 @@ void testTable()
                         i = 0;
                     }
 
-                    auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
-                    for( int k = 0; k < razy; ++k )
-                    {
                         for( int j = 0; j < el; ++j )
                             myTab->addOnIndex( rand() % 1000, 0); //dodaj na poczatek tablicy losowa wartosc z przedzialu <0-999>
 
+                        auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                         for( int j = 0; j < el; ++j )
                         {
                             myTab->deleteElement(i);
-                            myTab->showTable();
+                            if(show)
+                                myTab->showTable();
                         }
-
-                        cout << endl;
+                        auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
+                        if(show)
+                            cout << endl;
                         myTab->clearTable(); //zwolnij pamiec po kazdym dodaniu elementow do tablicy
-                    }
-                    auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
+
+
                     chrono::duration < double > czas = stop - start; //odejmij czasy
-                    cout << "\nSredni czas usuwania elementow z tablicy:" << (czas.count() / razy)* 1000 << " ms\n"; //wyswietl w milisekundach
+                    cout << "\nSredni czas usuwania elementow z tablicy:" << (czas.count())* 1000 << " ms\n"; //wyswietl w milisekundach
 
                     break;
                  }
@@ -196,26 +192,21 @@ void testTable()
              case '3':
                 {
                     Table *myTab = new Table;
-                    int el, razy, x;
+                    int el, x;
                     cout << "Ile elementow dodac do tablicy? ";
                     cin >> el;
-                    cout << "Ile razy wykonac operacje? ";
-                    cin >> razy;
 
-                    auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
-                    for( int k = 0; k < razy; ++k )
-                    {
                         for( int j = 0; j < el; ++j )
                             myTab->addOnIndex( rand() % 1000, 0); //dodaj na poczatek tablicy losowa wartosc z przedzialu <0-999>
 
+                            auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                             myTab->searchValue(rand() % 1000);
-
+                            auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
                         cout << endl;
                         myTab->clearTable(); //zwolnij pamiec po kazdym dodaniu elementow do tablicy
-                    }
-                    auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
+
                     chrono::duration < double > czas = stop - start; //odejmij czasy
-                    cout << "\nSredni czas wyszukiwania elementow w tablicy:" << (czas.count() / razy)* 1000 << " ms\n"; //wyswietl w milisekundach
+                    cout << "\nSredni czas wyszukiwania elementow w tablicy:" << (czas.count())* 1000 << " ms\n"; //wyswietl w milisekundach
 
                     break;
                 }
@@ -236,10 +227,12 @@ void testList()
 
     while(true)
     {
+        bool show = false;
+
         cout << "Wybierz operacje: \n";
         cout << "1. Dodawanie do listy \n";
         cout << "2. Usuwanie z listy \n";
-        cout << "3. Wyszukiwanie elementu \n";
+        cout << "3. Wyszukiwanie elementu ostatniego \n";
         cout << "4. Wyjscie \n";
 
         c = getch();
@@ -255,36 +248,46 @@ void testList()
                 cin >> el;
                 cout << "Ile razy wykonac operacje? ";
                 cin >> razy;
+                cout << "Czy wyswietlac operacje? [0/1] ";
+                cin >> show;
                 cout << "1. Na poczatek\n";
                 cout << "2. Na koniec\n";
                 cout << "3. Na indeks\n";
                 cin >> x;
 
-                if(x == 2)
-                {
-                    i = INT_MAX;
-                }
-
-                else if(x == 3)
+                if(x == 3)
                 {
                     cout << "Podaj indeks: \n";
                     cin >> i;
                 }
 
-                else
-                {
-                    i = 0;
-                }
-
                 auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                 for( int j = 0; j < razy; ++j )
                 {
-                    for( int k = 0; k < el; ++k )
-                        myList->addOnIndex( rand() % 1000, i); //dodaj do listy losowa wartosc z przedzialu <0-999>
+                        if(x == 1)
+                        {
+                            for( int k = 0; k < el; ++k )
+                                myList->addOnBeg( rand() % 1000); //dodaj do listy losowa wartosc z przedzialu <0-999>
+                        }
 
-                        myList->showList();
-                        myList->showReverse();
-                        cout << endl;
+                        else if(x == 2)
+                        {
+                            for( int k = 0; k < el; ++k )
+                                myList->addOnEnd( rand() % 1000);
+                        }
+
+                        else
+                        {
+                            for( int k = 0; k < el; ++k )
+                                myList->addOnIndex( rand() % 1000, i);
+                        }
+
+                        if(show)
+                        {
+                            myList->showList();
+                            myList->showReverse();
+                            cout << endl;
+                        }
                         myList->clearList(); //zwolnij pamiec po kazdym dodaniu elementow do listy
                 }
 
@@ -297,11 +300,11 @@ void testList()
             case '2':
             {
                 OneList *myList = new OneList;
-                int el, razy, x, i;
+                int el, x, i;
                     cout << "Ile elementow dodac do listy? ";
                     cin >> el;
-                    cout << "Ile razy wykonac operacje?\n ";
-                    cin >> razy;
+                    cout << "Czy wyswietlac operacje? [0/1] ";
+                    cin >> show;
 
                     cout << "\nUsuwanie: \n";
                     cout << "1. Z poczatku\n";
@@ -325,49 +328,45 @@ void testList()
                         i = 0;
                     }
 
-                    auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
-                    for( int k = 0; k < razy; ++k )
-                    {
                         for( int j = 0; j < el; ++j )
                             myList->addOnIndex( rand() % 1000, 0); //dodaj na poczatek tablicy losowa wartosc z przedzialu <0-999>
 
+                        auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                         for( int j = 0; j < el; ++j )
                         {
-                            myList->usun_osobe(i);
+                            myList->deleteElement(i);
+                            if(show)
                             myList->showList();
                         }
-
+                        auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
+                        if(show)
                         cout << endl;
                         myList->clearList(); //zwolnij pamiec po kazdym dodaniu elementow do tablicy
-                    }
-                    auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
+
                     chrono::duration < double > czas = stop - start; //odejmij czasy
-                    cout << "\nSredni czas usuwania elementow z listy:" << (czas.count() / razy)* 1000 << " ms\n"; //wyswietl w milisekundach
+                    cout << "\nSredni czas usuwania elementow z listy:" << (czas.count())* 100000 << " ms * 10^(-2)\n"; //wyswietl w milisekundach
                 break;
             }
             case '3':
             {
                 OneList *myList = new OneList;
-                    int el, razy, x;
+                    int el, x;
                     cout << "Ile elementow dodac do listy? ";
                     cin >> el;
-                    cout << "Ile razy wykonac operacje?\n ";
-                    cin >> razy;
 
-                    auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
-                    for( int k = 0; k < razy; ++k )
-                    {
-                        for( int j = 0; j < el; ++j )
+                      for( int j = 0; j < el; ++j )
                             myList->addOnIndex( rand() % 1000, 0); //dodaj na poczatek tablicy losowa wartosc z przedzialu <0-999>
 
-                            myList->searchValue(rand() % 1000);
+                        auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
+                        myList->showElement(el-1);
+                        auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
 
                         cout << endl;
                         myList->clearList(); //zwolnij pamiec po kazdym dodaniu elementow do tablicy
-                    }
-                    auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
+
+
                     chrono::duration < double > czas = stop - start; //odejmij czasy
-                    cout << "\nSredni czas wyszukiwania elementow w liscie:" << (czas.count() / razy)* 1000 << " ms\n"; //wyswietl w milisekundach
+                    cout << "\nSredni czas wyszukiwania elementow w liscie:" << (czas.count())* 1000 << " ms\n"; //wyswietl w milisekundach
 
                     break;
             }
@@ -386,10 +385,11 @@ void testHeap()
 
     while(true)
     {
+        bool show = false;
         cout << "Wybierz operacje: \n";
         cout << "1. Dodawanie \n";
         cout << "2. Usuwanie z kopca \n";
-        cout << "3. Wyszukiwanie elementu \n";
+        cout << "3. Wyszukiwanie elementu\n";
         cout << "4. Wyjscie \n";
 
         c = getch();
@@ -403,6 +403,8 @@ void testHeap()
                 cin >> el;
                 cout << "Ile razy wykonac operacje?\n ";
                 cin >> razy;
+                cout << "Czy wyswietlac operacje? [0/1] ";
+                cin >> show;
 
                 MinHeap *myHeap = new MinHeap(el);
 
@@ -412,8 +414,11 @@ void testHeap()
                     for( int k = 0; k < el; ++k )
                         myHeap->push(rand() % 1000); //dodaj do kopca losowa wartosc z przedzialu <0-999>
 
-                        myHeap->print();
-                        cout << endl;
+                        if(show)
+                        {
+                            myHeap->print();
+                            cout << endl;
+                        }
                         myHeap->clearHeap(); //zwolnij pamiec po kazdym dodaniu elementow do kopca
                 }
 
@@ -425,61 +430,56 @@ void testHeap()
             }
             case '2':
             {
-                int el, razy;
+                int el;
                 cout << "Ile elementow dodac do kopca? ";
                 cin >> el;
-                cout << "Ile razy wykonac operacje?\n ";
-                cin >> razy;
+                cout << "Czy wyswietlac operacje? [0/1] ";
+                cin >> show;
 
                 MinHeap *myHeap = new MinHeap(el);
 
-                auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
-                for( int j = 0; j < razy; ++j )
-                {
+
+
                     for( int j = 0; j < el; ++j )
                             myHeap->push( rand() % 1000); //dodaj na poczatek kopca losowa wartosc z przedzialu <0-999>
 
+                        auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                         for( int j = 0; j < el; ++j )
                         {
                             myHeap->pop();
+                            if(show)
                             myHeap->print();
                         }
+                        auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
 
+                        if(show)
                         cout << endl;
                         myHeap->clearHeap(); //zwolnij pamiec po kazdym dodaniu elementow do kopca
-                }
 
-                auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
                 chrono::duration < double > czas = stop - start; //odejmij czasy
-                cout << "\nSredni czas usuwania elementow z kopca:" << (czas.count() / razy )* 1000 << " ms\n"; //wyswietl w milisekundach
+                cout << "\nSredni czas usuwania elementow z kopca:" << (czas.count())* 1000 << " ms\n"; //wyswietl w milisekundach
 
                 break;
             }
             case '3':
             {
-                int el, razy;
+                int el;
                 cout << "Ile elementow dodac do kopca? ";
                 cin >> el;
-                cout << "Ile razy wykonac operacje?\n ";
-                cin >> razy;
 
                 MinHeap *myHeap = new MinHeap(el);
 
-                auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
-                for( int k = 0; k < razy; ++k )
-                    {
                         for( int j = 0; j < el; ++j )
                             myHeap->push( rand() % 1000); //dodaj na poczatek kopca losowa wartosc z przedzialu <0-999>
 
+                            auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                             myHeap->searchValue(rand() % 1000);
-
+                            auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
                         cout << endl;
                         myHeap->clearHeap(); //zwolnij pamiec po kazdym dodaniu elementow do kopca
-                    }
 
-                auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
                 chrono::duration < double > czas = stop - start; //odejmij czasy
-                cout << "\nSredni czas wyszukiwania elementow w kopcu:" << (czas.count() / razy )* 1000 << " ms\n"; //wyswietl w milisekundach
+                cout << "\nSredni czas wyszukiwania elementow w kopcu:" << (czas.count())* 100000 << " ms * 10^(-2)\n"; //wyswietl w milisekundach
 
                 break;
             }
@@ -498,6 +498,7 @@ void testBST()
 
     while(true)
     {
+        bool show = false;
         cout << "Wybierz operacje: \n";
         cout << "1. Dodawanie \n";
         cout << "2. Usuwanie z BST \n";
@@ -517,6 +518,8 @@ void testBST()
                 cin >> el;
                 cout << "Ile razy wykonac operacje?\n ";
                 cin >> razy;
+                cout << "Czy wyswietlac operacje? [0/1] ";
+                cin >> show;
 
                 auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                 for( int j = 0; j < razy; ++j )
@@ -526,8 +529,11 @@ void testBST()
                     for( int k = 0; k < el; ++k )
                         root->Insert(root, rand() % 1000); //dodaj do BST losowa wartosc z przedzialu <0-999>
 
-                        root->Inorder(root);
-                        cout << endl;
+                        if(show)
+                        {
+                            root->Inorder(root);
+                            cout << endl;
+                        }
                         b.ClearBST(root);
                         root = nullptr;
                 }
@@ -542,33 +548,34 @@ void testBST()
             {
                 NodeBST b, *root = NULL;
 
-                int el, razy;
+                int el;
                 cout << "Ile elementow dodac do BST? ";
                 cin >> el;
-                cout << "Ile razy wykonac operacje?\n ";
-                cin >> razy;
+                cout << "Czy wyswietlac operacje? [0/1] ";
+                cin >> show;
 
-                auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
-                for( int j = 0; j < razy; ++j )
-                {
                     root = b.Insert(root,NULL);
 
                     for( int k = 0; k < el; ++k )
                         root->Insert(root, rand() % 1000); //dodaj do BST losowa wartosc z przedzialu <0-999>
 
+                    auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                     for( int k = 0; k < el; ++k )
                     {
                         int data = root->FindMin(root)->data;
-                        root->Delete(root, data);
-                        root->Inorder(root);
-                        cout << endl;
+                        root->Delete(root, rand() % 1000);
+                        if(show)
+                        {
+                            root->Inorder(root);
+                            cout << endl;
+                        }
                     }
+                    auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
+                        cout << endl;
                         root = nullptr;
-                }
 
-                auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
                 chrono::duration < double > czas = stop - start; //odejmij czasy
-                cout << "\nSredni czas usuwania elementow z BST:" << (czas.count() / razy )* 1000 << " ms\n"; //wyswietl w milisekundach
+                cout << "\nSredni czas usuwania elementow z BST:" << (czas.count())* 1000 << " ms\n"; //wyswietl w milisekundach
 
                 break;
             }
@@ -576,36 +583,30 @@ void testBST()
             {
                NodeBST b, *root = NULL;
 
-                int el, razy;
+                int el;
                 cout << "Ile elementow dodac do BST? ";
                 cin >> el;
-                cout << "Ile razy wykonac operacje?\n ";
-                cin >> razy;
 
-                auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
-                for( int j = 0; j < razy; ++j )
-                {
-                    root = b.Insert(root,NULL);
+                  root = b.Insert(root,NULL);
 
                     for( int k = 0; k < el; ++k )
                         root->Insert(root, rand() % 1000); //dodaj do BST losowa wartosc z przedzialu <0-999>
 
-
                         int data = rand() % 1000;
+                        auto start = chrono::high_resolution_clock::now(); //poczatek odliczania
                         if(root->Search(root, data))
                             cout << "Znaleziono liczbe: " << data;
 
                         else
                             cout << "Nie znaleziono liczby: " << data;
+                        auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
 
                         cout << endl;
                         b.ClearBST(root);
                         root = nullptr;
-                }
 
-                auto stop = chrono::high_resolution_clock::now(); //koniec odliczania
                 chrono::duration < double > czas = stop - start; //odejmij czasy
-                cout << "\nSredni czas wyszukiwania elementow w BST:" << (czas.count() / razy )* 1000 << " ms\n"; //wyswietl w milisekundach
+                cout << "\nSredni czas wyszukiwania elementow w BST:" << (czas.count())* 1000 << " ms\n"; //wyswietl w milisekundach
 
                 break;
             }

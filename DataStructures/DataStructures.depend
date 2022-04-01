@@ -2,7 +2,7 @@
 1648651716 source:c:\users\macie\documents\codeblocks_projects\struktury danych\kopiec.cpp
 	"kopiec.h"
 
-1648677649 source:c:\users\macie\documents\codeblocks_projects\struktury danych\lista2.cpp
+1648825396 source:c:\users\macie\documents\codeblocks_projects\struktury danych\lista2.cpp
 	"lista2.h"
 
 1648462882 source:c:\users\macie\documents\codeblocks_projects\struktury danych\tablica.cpp
@@ -17,11 +17,11 @@
 	<chrono>
 	<cstdlib>
 
-1648650774 c:\users\macie\documents\codeblocks_projects\struktury danych\kopiec.h
+1648831493 c:\users\macie\documents\codeblocks_projects\struktury danych\kopiec.h
 	<iostream>
 	<climits>
 
-1648677649 c:\users\macie\documents\codeblocks_projects\struktury danych\lista2.h
+1648825388 c:\users\macie\documents\codeblocks_projects\struktury danych\lista2.h
 	<iostream>
 	<numeric>
 	<chrono>
@@ -33,7 +33,7 @@
 	<chrono>
 	<cstdlib>
 
-1648677586 source:c:\users\macie\documents\codeblocks_projects\struktury danych\main.cpp
+1648822752 source:c:\users\macie\documents\codeblocks_projects\struktury danych\main.cpp
 	<iostream>
 	<stdio.h>
 	<numeric>
